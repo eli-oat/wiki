@@ -10,10 +10,6 @@ body {
     font-family: sans-serif;
 }
 
-a[href^="http"]:after {
-     content: " " url(../assets/triangle.svg);
-}
-
 
 
 @media (prefers-color-scheme: light) {
@@ -25,6 +21,10 @@ a[href^="http"]:after {
     a {
 		color: black;
     }
+    
+    a[href^="http"]:after {
+    	content: " " url(../assets/triangle-black.svg);
+    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,5 +35,9 @@ a[href^="http"]:after {
     
     a {
 		color: silver;
+    }
+    
+    a[href^="http"]:after {
+    	content: " " url(../assets/triangle-white.svg);
     }
 }
