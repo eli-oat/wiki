@@ -42,6 +42,8 @@ $.ajax({
         const pageData = allWikiPages(wikiData); // all wiki pages
         const indexPages = findIndexPages(pageData); // top-level index pages
 
+        // console.log(findAllAncestors(pageData, 'cooking'));
+
         router
             .on('/', () => {
                 // return all index pages
@@ -51,12 +53,7 @@ $.ajax({
                 // return a specific page by that page's slug
                 let targetPage = findSinglePage(pageData, params.slug);
                 let childPages = findChildPages(pageData, params.slug);
-                buildDetail(targetPage, childPages);
-            })
-            .on('children/:slug', (params) => {
-                // return the children of a given slug
-                let childPages = findChildPages(pageData, params.slug);
-                listPages(childPages); // FIXME: never clears the loading indicator.
+                buildDetail(targetPage, childPages, pageData);
             })
             .notFound((query) => {
                 console.log('Not found. ' + query);
@@ -94,13 +91,13 @@ function findIndexPages(pageData) {
 }
 
 function findSinglePage(pageData, pageSlug) {
-    let ret = null;
+    let singlePage = null;
     pageData.forEach((page) => {
         if (page.slug === pageSlug) {
-            ret = page;
+            singlePage = page;
         }
     });
-    return ret;
+    return singlePage;
 }
 
 function findChildPages(pageData, parentPage) {
@@ -113,10 +110,37 @@ function findChildPages(pageData, parentPage) {
     return childPages;
 }
 
+function findParentPage(pageData, currentPageParent) {
+    let parentPage = null;
+    pageData.forEach((page) => {
+        if (page.slug === currentPageParent) {
+            parentPage = page;
+        }
+    });
+    return parentPage;
+}
+
+function findAllAncestors(pageData, currentParent, familyTree = []) {
+    if (currentParent) {
+        let parentPage = findParentPage(pageData, currentParent);
+        if (parentPage.parentPage) {
+            familyTree.push(parentPage);
+            findAllAncestors(pageData, parentPage.parentPage, familyTree);
+        } else {
+            familyTree.push(parentPage);
+        }
+    }
+    return familyTree;
+}
+
 
 // Build pages with the data
 function buildIndex(wikiTitle, wikiIndex) {
-    $('#wiki').html('<h1>' + wikiTitle + '</h1><main id="indexList"></main>');
+    $('#wiki').html(
+        `<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAFoTx1HAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAdlJREFUKBVlUj1vFDEQnbF3D2+sHAUVKPQE7lKA6FEQgQjRALoO5fLHyF2HTkCDEHBBqfgF9xUqmkQJTQoOvLvk1mv2+fAqCEvWep/nPc+8GaKL6+XK7DYNaCABci+ZnJDgFwzEqbtFxua0m7Wu1ZSent6vf/b09JHn7enxg5ii74W1X6inJnOgr9Q3xzj01ThN8taq/xmQk0ZPNmPbGBa0+NnNW00EMcRiG30gWW40zI1Zh9j2kvERO3HFMxFVaf8gdnPl9NpC5luXzPoB8HpBJZQDUIQbZAV5o9c3kQNwL7uUJBMJ+TC2apTKX1vaHB5wX01Tx+VZN2tfB+Ncf71JVowWstgWlcATJAH/kGlR2k8oZ9fc+li55+RvfVjVqIY5m2Ny3KzqvFy/iYBUz+6xLd/t5O2VkOQ/35AlLIeF2MH+cBcIvswA4mlUpWzyuerAGTbOwHAHUoj1RKSy9EcNK1NMKvI7qBobZ2CoBTGIhYDvl7D0VlKUFHx+zIIe75j2KCjDlb4eb7iS3keusWapyEpJT/1sdahjMTRs+XVCuok5QwOgDCsTp69mZOZOuue7pr2PltZDgBeg/lfgTUTxqidW/leEZ0vCMgb4fysMCIYlzHDALgb/AQ4a/m3yQy73AAAAAElFTkSuQmCC" alt="${wikiTitle}, The index."></p>
+        <h1>${wikiTitle}</h1>
+        <main id="indexList"></main>`
+    );
     wikiIndex.forEach((page) => {
         $('#indexList').append(
             `<section id="${page.slug}">
@@ -127,22 +151,30 @@ function buildIndex(wikiTitle, wikiIndex) {
     });
 }
 
-function buildDetail(page, pages) {
-    let backLink = '/';
-    if (page.parentPage) {
-        backLink = '/#' + page.parentPage;
-    }
+function buildBreadCrumbs(familyTree) {
+    familyTree.reverse().forEach((page) => {
+        $('#breadCrumbs').append(`/ <a href="#${page.slug}">#${page.slug}</a>&nbsp;`);
+    });
+}
+
+function buildDetail(page, childPages, pageData) {
     $('#wiki').html(
-        `<nav>
-            <p><a href="${backLink}">&laquo; Back</a></p>
-        </nav>
-        <article id="${page.slug}"></article>
-    `);
+        `<nav><p id="breadCrumbs"><a href="/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAFoTx1HAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAdlJREFUKBVlUj1vFDEQnbF3D2+sHAUVKPQE7lKA6FEQgQjRALoO5fLHyF2HTkCDEHBBqfgF9xUqmkQJTQoOvLvk1mv2+fAqCEvWep/nPc+8GaKL6+XK7DYNaCABci+ZnJDgFwzEqbtFxua0m7Wu1ZSent6vf/b09JHn7enxg5ii74W1X6inJnOgr9Q3xzj01ThN8taq/xmQk0ZPNmPbGBa0+NnNW00EMcRiG30gWW40zI1Zh9j2kvERO3HFMxFVaf8gdnPl9NpC5luXzPoB8HpBJZQDUIQbZAV5o9c3kQNwL7uUJBMJ+TC2apTKX1vaHB5wX01Tx+VZN2tfB+Ncf71JVowWstgWlcATJAH/kGlR2k8oZ9fc+li55+RvfVjVqIY5m2Ny3KzqvFy/iYBUz+6xLd/t5O2VkOQ/35AlLIeF2MH+cBcIvswA4mlUpWzyuerAGTbOwHAHUoj1RKSy9EcNK1NMKvI7qBobZ2CoBTGIhYDvl7D0VlKUFHx+zIIe75j2KCjDlb4eb7iS3keusWapyEpJT/1sdahjMTRs+XVCuok5QwOgDCsTp69mZOZOuue7pr2PltZDgBeg/lfgTUTxqidW/leEZ0vCMgb4fysMCIYlzHDALgb/AQ4a/m3yQy73AAAAAElFTkSuQmCC" alt="Return to the Index."></a>&nbsp;</p></nav>
+        <article id="${page.slug}"></article>`
+    );
+    buildBreadCrumbs(findAllAncestors(pageData, page.parentPage));
     $('#' + page.slug).html(
         `<h1>${page.title}</h1>
         ${marked(page.body)}`
     );
-    listPages(pages);
+    listPages(childPages);
+}
+
+function listPages(pages) {
+    $('#wiki').append(`<ul id="pageList"></ul>`);
+    pages.forEach((page) => {
+        $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
+    });
 }
 
 function listPages(pages) {
