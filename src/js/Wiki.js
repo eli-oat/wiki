@@ -24,8 +24,8 @@ marked.setOptions({
 
 // Configure and initialize router
 const root = process.env.ROOT_URL; // root URL is defined with an env variable
-const useHash = false;
-const hash = null;
+const useHash = true;
+const hash = '#!';
 const router = new Navigo(root, useHash, hash);
 
 
@@ -47,13 +47,13 @@ $.ajax({
                 // return all index pages
                 buildIndex(wikiTitle, indexPages);
             })
-            .on('/:slug', (params) => {
+            .on(':slug', (params) => {
                 // return a specific page by that page's slug
                 let targetPage = findSinglePage(pageData, params.slug);
                 let childPages = findChildPages(pageData, params.slug);
                 buildDetail(targetPage, childPages);
             })
-            .on('/children/:slug', (params) => {
+            .on('children/:slug', (params) => {
                 // return the children of a given slug
                 let childPages = findChildPages(pageData, params.slug);
                 listPages(childPages); // FIXME: never clears the loading indicator.
