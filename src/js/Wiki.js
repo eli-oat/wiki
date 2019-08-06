@@ -23,7 +23,7 @@ marked.setOptions({
 
 
 // Configure and initialize router
-const root = process.env.ROOT_URL //localhost:1234'; // root URL is defined with an env variable
+const root = process.env.ROOT_URL; // root URL is defined with an env variable
 const useHash = false;
 const hash = null;
 const router = new Navigo(root, useHash, hash);

@@ -8,7 +8,7 @@
   "scripts": {
     "clean": "rm -rf ./dist && rm -rf ./.cache",
     "dev": "export NODE_ENV=dev && npx parcel index.html",
-    "build": "export NODE_ENV=prod && npx parcel build index.html -d ./dist"
+    "build": "yarn run clean && export NODE_ENV=prod && npx parcel build index.html -d ./dist"
   },
   "dependencies": {
     "jquery": "^3.4.1",
