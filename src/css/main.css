@@ -10,6 +10,10 @@ body {
     font-family: sans-serif;
 }
 
+a[href^="http"]:after {
+    content: " \10555";
+    color: #a008d3;
+}
 
 
 @media (prefers-color-scheme: light) {
@@ -22,9 +26,6 @@ body {
 		color: black;
     }
     
-    a[href^="http"]:after {
-    	content: " " url(../assets/triangle-black.svg);
-    }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -36,8 +37,5 @@ body {
     a {
 		color: silver;
     }
-    
-    a[href^="http"]:after {
-    	content: " " url(../assets/triangle-white.svg);
-    }
+
 }
