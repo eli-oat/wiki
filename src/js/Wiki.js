@@ -120,7 +120,7 @@ function buildIndex(wikiTitle, wikiIndex) {
     wikiIndex.forEach((page) => {
         $('#indexList').append(
             `<section id="${page.slug}">
-                <h2><a href="/${page.slug}">${page.title}</a></h2>
+                <h2><a href="/#!${page.slug}">${page.title}</a></h2>
                 ${marked(page.body)}
             </section>`
         );
@@ -130,7 +130,7 @@ function buildIndex(wikiTitle, wikiIndex) {
 function buildDetail(page, pages) {
     let backLink = '/';
     if (page.parentPage) {
-        backLink = page.parentPage;
+        backLink = '/#!' + page.parentPage;
     }
     $('#wiki').html(
         `<nav>
@@ -148,6 +148,6 @@ function buildDetail(page, pages) {
 function listPages(pages) {
     $('#wiki').append(`<ul id="pageList"></ul>`);
     pages.forEach((page) => {
-        $('#pageList').append(`<li><a href="/${page.slug}">${page.title}</a></li>`);
+        $('#pageList').append(`<li><a href="/#!${page.slug}">${page.title}</a></li>`);
     });
 }
