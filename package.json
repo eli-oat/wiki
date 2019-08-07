@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "jquery": "^3.4.1",
+    "lunr": "^2.3.6",
     "marked": "^0.7.0",
     "navigo": "^7.1.2"
   },
