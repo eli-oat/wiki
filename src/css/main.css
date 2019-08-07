@@ -11,7 +11,7 @@ body {
     line-height: 1.5em;
 }
 
-h1, h2, h3, h4, h5, blockquote, input[type="search"] {
+h1, h2, h3, h4, h5, blockquote, input[type="submit"] {
     font-family: -apple-system, BlinkMacSystemFont, 'avenir next', avenir, helvetica, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', arial, sans-serif;
 }
 
