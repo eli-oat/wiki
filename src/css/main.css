@@ -55,7 +55,7 @@ footer form input[type="search"] {
 footer form input[type="submit"] {
     background-color: #a008d3;
     border: none;
-    color: white;
+    color: #eee;
     padding: 1em;
     margin-left: -1em;
     border-top-right-radius: 7px;
@@ -70,7 +70,7 @@ footer form label {
 @media (prefers-color-scheme: light) {
     body {
         color: black;
-        background-color: #fff;
+        background-color: #eee;
     }
 
     a {
@@ -85,6 +85,6 @@ footer form label {
     }
 
     a {
-        color: silver;
+        color: #ddd;
     }
 }
