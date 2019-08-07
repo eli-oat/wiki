@@ -13,8 +13,7 @@
   "dependencies": {
     "jquery": "^3.4.1",
     "marked": "^0.7.0",
-    "navigo": "^7.1.2",
-    "wisp": "^0.11.2"
+    "navigo": "^7.1.2"
   },
   "devDependencies": {
     "parcel-bundler": "^1.12.3"
