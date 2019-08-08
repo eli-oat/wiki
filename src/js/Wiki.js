@@ -192,9 +192,7 @@ function buildDetail(page, childPages, pageData) {
     buildBreadCrumbs(findAllAncestors(pageData, page.parentPage));
     $('#' + page.slug).html(
         `<h1>${page.title}</h1>
-        ${Marked(page.body)}
-        <br>
-        <hr>`
+        ${Marked(page.body)}`
     );
     buildListOfPages(childPages);
     buildFooter();
@@ -207,10 +205,12 @@ function buildBreadCrumbs(familyTree) {
 }
 
 function buildListOfPages(pages) {
-    $('#wiki').append(`<ul id="pageList"></ul>`);
-    pages.forEach((page) => {
-        $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
-    });
+    if (pages.length > 0) {
+        $('#wiki').append(`<br><hr><ul id="pageList"></ul>`);
+        pages.forEach((page) => {
+            $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
+        });
+    }
 }
 
 function buildFooter() {
