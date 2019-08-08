@@ -58,21 +58,7 @@ $.ajax({
             })
             .on('buscar/:query', (params) => {
                 // search results
-                let idx = Lunr(function () {
-                    this.ref('slug');
-                    this.field('body');
-                    pageData.forEach(function (doc) {
-                        this.add(doc)
-                    }, this)
-                });
-                let searchResults = idx.search(params.query);
-                $('#wiki').html(
-                    `<nav><p id="breadCrumbs"><a href="/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAFoTx1HAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAdlJREFUKBVlUj1vFDEQnbF3D2+sHAUVKPQE7lKA6FEQgQjRALoO5fLHyF2HTkCDEHBBqfgF9xUqmkQJTQoOvLvk1mv2+fAqCEvWep/nPc+8GaKL6+XK7DYNaCABci+ZnJDgFwzEqbtFxua0m7Wu1ZSent6vf/b09JHn7enxg5ii74W1X6inJnOgr9Q3xzj01ThN8taq/xmQk0ZPNmPbGBa0+NnNW00EMcRiG30gWW40zI1Zh9j2kvERO3HFMxFVaf8gdnPl9NpC5luXzPoB8HpBJZQDUIQbZAV5o9c3kQNwL7uUJBMJ+TC2apTKX1vaHB5wX01Tx+VZN2tfB+Ncf71JVowWstgWlcATJAH/kGlR2k8oZ9fc+li55+RvfVjVqIY5m2Ny3KzqvFy/iYBUz+6xLd/t5O2VkOQ/35AlLIeF2MH+cBcIvswA4mlUpWzyuerAGTbOwHAHUoj1RKSy9EcNK1NMKvI7qBobZ2CoBTGIhYDvl7D0VlKUFHx+zIIe75j2KCjDlb4eb7iS3keusWapyEpJT/1sdahjMTRs+XVCuok5QwOgDCsTp69mZOZOuue7pr2PltZDgBeg/lfgTUTxqidW/leEZ0vCMgb4fysMCIYlzHDALgb/AQ4a/m3yQy73AAAAAElFTkSuQmCC" alt="Return to the Index."></a>&nbsp;</p></nav>
-                     <h1>Search: ${params.query}</h1><ul id="searchResults"></ul>`
-                );
-                searchResults.forEach((result) => {
-                    $('#searchResults').append(`<li><a href="#${result.ref}">#${result.ref}</a></li>`);
-                });
+                doSearch(pageData, params);
             })
             .on('lista', () => {
                 // hierarchical display of all pages as a tree/list
@@ -162,6 +148,23 @@ function findAllAncestors(pageData, currentParent, familyTree = []) {
     return familyTree;
 }
 
+function doSearch(pageData, params) {
+    let idx = Lunr(function () {
+        this.ref('slug');
+        this.field('body');
+        pageData.forEach(function (doc) {
+            this.add(doc)
+        }, this)
+    });
+    let searchResults = idx.search(params.query);
+    $('#wiki').html(
+        `<nav><p id="breadCrumbs"><a href="/"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAFoTx1HAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAALEwAACxMBAJqcGAAAAVlpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IlhNUCBDb3JlIDUuNC4wIj4KICAgPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4KICAgICAgPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iPgogICAgICAgICA8dGlmZjpPcmllbnRhdGlvbj4xPC90aWZmOk9yaWVudGF0aW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KTMInWQAAAdlJREFUKBVlUj1vFDEQnbF3D2+sHAUVKPQE7lKA6FEQgQjRALoO5fLHyF2HTkCDEHBBqfgF9xUqmkQJTQoOvLvk1mv2+fAqCEvWep/nPc+8GaKL6+XK7DYNaCABci+ZnJDgFwzEqbtFxua0m7Wu1ZSent6vf/b09JHn7enxg5ii74W1X6inJnOgr9Q3xzj01ThN8taq/xmQk0ZPNmPbGBa0+NnNW00EMcRiG30gWW40zI1Zh9j2kvERO3HFMxFVaf8gdnPl9NpC5luXzPoB8HpBJZQDUIQbZAV5o9c3kQNwL7uUJBMJ+TC2apTKX1vaHB5wX01Tx+VZN2tfB+Ncf71JVowWstgWlcATJAH/kGlR2k8oZ9fc+li55+RvfVjVqIY5m2Ny3KzqvFy/iYBUz+6xLd/t5O2VkOQ/35AlLIeF2MH+cBcIvswA4mlUpWzyuerAGTbOwHAHUoj1RKSy9EcNK1NMKvI7qBobZ2CoBTGIhYDvl7D0VlKUFHx+zIIe75j2KCjDlb4eb7iS3keusWapyEpJT/1sdahjMTRs+XVCuok5QwOgDCsTp69mZOZOuue7pr2PltZDgBeg/lfgTUTxqidW/leEZ0vCMgb4fysMCIYlzHDALgb/AQ4a/m3yQy73AAAAAElFTkSuQmCC" alt="Return to the Index."></a>&nbsp;</p></nav>
+                     <h1>Search: ${params.query}</h1><ul id="searchResults"></ul>`
+    );
+    searchResults.forEach((result) => {
+        $('#searchResults').append(`<li><a href="#${result.ref}">#${result.ref}</a></li>`);
+    });
+}
 
 // Build UI with the data
 function buildIndex(wikiTitle, wikiIndex) {
