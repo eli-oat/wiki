@@ -1,11 +1,11 @@
 import Navigo from 'navigo';
 import $ from 'jquery';
-import marked from 'marked';
-import lunr from 'lunr';
+import Marked from 'marked';
+import Lunr from 'lunr';
 
 
 // Configure markdown parser
-marked.setOptions({
+Marked.setOptions({
     gfm: true,
     tables: true,
     breaks: false,
@@ -58,7 +58,7 @@ $.ajax({
             })
             .on('buscar/:query', (params) => {
                 // search results
-                let idx = lunr(function () {
+                let idx = Lunr(function () {
                     this.ref('slug');
                     this.field('body');
                     pageData.forEach(function (doc) {
@@ -174,7 +174,7 @@ function buildIndex(wikiTitle, wikiIndex) {
         $('#indexList').append(
             `<section id="${page.slug}">
                 <h2><a href="/#${page.slug}">${page.title}</a></h2>
-                ${marked(page.body)}
+                ${Marked(page.body)}
             </section>`
         );
     });
@@ -189,7 +189,7 @@ function buildDetail(page, childPages, pageData) {
     buildBreadCrumbs(findAllAncestors(pageData, page.parentPage));
     $('#' + page.slug).html(
         `<h1>${page.title}</h1>
-        ${marked(page.body)}`
+        ${Marked(page.body)}`
     );
     buildListOfPages(childPages);
     buildFooter();
