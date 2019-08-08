@@ -192,7 +192,9 @@ function buildDetail(page, childPages, pageData) {
     buildBreadCrumbs(findAllAncestors(pageData, page.parentPage));
     $('#' + page.slug).html(
         `<h1>${page.title}</h1>
-        ${Marked(page.body)}`
+        ${Marked(page.body)}
+        <br>
+        <hr>`
     );
     buildListOfPages(childPages);
     buildFooter();
