@@ -37,8 +37,16 @@ $.ajax({
     contentType: 'application/json',
     dataType: 'json',
     type: 'GET',
-    success: (wikiData) => {
+    success: (data) => {
 
+
+        if (localStorage.getItem('wikiData')) {
+            localStorage.removeItem('wikiData');
+        }
+
+        localStorage.setItem('wikiData', JSON.stringify(data));
+
+        const wikiData = JSON.parse(localStorage.getItem('wikiData'));
         const wikiTitle = wikiData.title;
         const pageData = allWikiPages(wikiData); // all wiki pages
         const indexPages = findIndexPages(pageData); // top-level index pages
