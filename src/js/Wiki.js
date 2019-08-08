@@ -211,7 +211,8 @@ function buildListOfPages(pages) {
 function buildFooter() {
     $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`);
     $('#searchButton').click((event) => {
-        const currentPage = window.location.hash.replace('#','');
+        // const currentPage = window.location.hash.replace('#','');
+        const currentPage = window.location.hash;
         $('#wiki').empty().html(`
         <div class="searchContainer">
             <form id="searchForm">
