@@ -220,7 +220,7 @@ function buildFooter() {
                 <input id="searchTerm" name="search" type="search" aria-placeholder="Search">
                 <input type="submit" value="Search">
             </form>
-            <a href="${currentPage}" class="searchClose" data-navigo>Close</a>
+            <a href="/${currentPage}" class="searchClose">Close</a>
         </div>
         `);
         $("#searchForm").on("submit", (event) => {
