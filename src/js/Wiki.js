@@ -51,18 +51,13 @@ $.ajax({
         const pageData = allWikiPages(wikiData); // all wiki pages
         const indexPages = findIndexPages(pageData); // top-level index pages
 
-        $("#fakeSearchForm").on("submit", (event) => {
-            const searchTerm = $('#searchTerm').val();
-            router.navigate('buscar/' + searchTerm);
-            event.preventDefault();
-        });
-
         router
             .on('/', () => {
                 // return all index pages
                 buildIndex(wikiTitle, indexPages);
             })
             .on('buscar/:query', (params) => {
+                // search results
                 let idx = lunr(function () {
                     this.ref('slug');
                     this.field('body');
@@ -79,6 +74,7 @@ $.ajax({
                 });
             })
             .on('lista', () => {
+                // hierarchical display of all pages as a tree/list
                 console.log('WIP');
             })
             .on(':slug', (params) => {
@@ -181,12 +177,7 @@ function buildIndex(wikiTitle, wikiIndex) {
             </section>`
         );
     });
-}
-
-function buildBreadCrumbs(familyTree) {
-    familyTree.reverse().forEach((page) => {
-        $('#breadCrumbs').append(`/ <a href="#${page.slug}">#${page.slug}</a>&nbsp;`);
-    });
+    buildFooter();
 }
 
 function buildDetail(page, childPages, pageData) {
@@ -203,9 +194,38 @@ function buildDetail(page, childPages, pageData) {
     buildFooter();
 }
 
+function buildBreadCrumbs(familyTree) {
+    familyTree.reverse().forEach((page) => {
+        $('#breadCrumbs').append(`/ <a href="#${page.slug}">#${page.slug}</a>&nbsp;`);
+    });
+}
+
 function listPages(pages) {
     $('#wiki').append(`<ul id="pageList"></ul>`);
     pages.forEach((page) => {
         $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
+    });
+}
+
+function buildFooter() {
+    $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`);
+    $('#searchButton').click((event) => {
+        const currentPage = window.location.hash.replace('#','');
+        $('#wiki').empty().html(`
+        <div class="searchContainer">
+            <form id="searchForm">
+                <label for="searchTerm">Search</label>
+                <input id="searchTerm" name="search" type="search" aria-placeholder="Search">
+                <input type="submit" value="Search">
+            </form>
+            <a href="${currentPage}" class="searchClose" data-navigo>Close</a>
+        </div>
+        `);
+        $("#searchForm").on("submit", (event) => {
+            const searchTerm = $('#searchTerm').val();
+            router.navigate('buscar/' + searchTerm);
+            event.preventDefault();
+        });
+        event.preventDefault();
     });
 }

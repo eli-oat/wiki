@@ -23,29 +23,28 @@ a[href^="http"]:after {
     content: " " url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAABfGlDQ1BJQ0MgUHJvZmlsZQAAKJF9kDlLA0EUx3+JR8QDkVhYWCxeVRSN4NEIJogGUkhU8Go2aw7BJMtmRcXGQrAVFEQbr0I/gTYWgrUgCIogNn4DRRsJ6xujxAN8MPN+82benzd/cPt005wrbodU2rYigwFtfGJS8zxSRik1eOnWjazZPzwcRuIr/4zXG1wqX7cqrb/3/0bFTCxrgKtMuM8wLVt4SLhxwTYVK71aS4YSXlGcyPOm4miejz/ejEaCwmfCmpHUZ4TvhX1G0kqBW+k3Rb+9SXzj1Ny88TmP+kllLD02IrlBVj1ZIgwSQCPEAEG66KBX9i5a8dMmJ+zYoq2agxlzyZpNJG2tX5yIaaG00ebT/O0dvaB8/e1XoZbZg54XKFov1KJbcLoGdXeFWtMuVK/CyYWpW/pHqUiWOx6HpyOomgDvFZRPZeOd/vyPKgNQ8uA4z83g2YDcuuO87TtO7kCaxaPzdN6jTy0Ob2F0GcKXsL0DLaJdPf0OLAdnNXFVn+gAAAAJcEhZcwAACxMAAAsTAQCanBgAAAFZaVRYdFhNTDpjb20uYWRvYmUueG1wAAAAAAA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJYTVAgQ29yZSA1LjQuMCI+CiAgIDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+CiAgICAgIDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiCiAgICAgICAgICAgIHhtbG5zOnRpZmY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vdGlmZi8xLjAvIj4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgPC9yZGY6RGVzY3JpcHRpb24+CiAgIDwvcmRmOlJERj4KPC94OnhtcG1ldGE+CkzCJ1kAAAEhSURBVBgZHZAxSkNBEIb/2d0YX4xoinSKhV1MMIUHSGEn2Ig2Fhq9gBfQIhdQDxAJVqJg4QUE8QDKUxuxEKy0SCDBl+d7u+NMFv7dZeefb3aGetNxHqFsLTm8JF27VNxZNsbfENvVAM8AyBRRsgmGD8MwOFrE+kw7rb1LsMMIEgeJ2EVURorfu/a4ca6vF1OvNQIfWxTgkYnLkGG5glFRw2UpXjM2XFVQbeaUPQXKt5j8s1GiMDM1BcZJFQuNPr7j4Gm3nTRvQ7DbTjHCKqiJmE5/6EsKoLP/t/LWxePsZ3r94QhWYQM17Y3r93KoJssV5w7q5vDMJTyC1NzoRbFC57W09F2QxD4zb3rO4aSzIGNoyaxa8kkhTLqW3SLBSOX/AWKfbOSvXifJAAAAAElFTkSuQmCC');
 }
 
-footer {
+.searchContainer {
     padding: 3em 0 1em 0;
-    font-size: 0.75em;
 }
 
-footer:before {
+.searchContainer:before {
     display: block;
 }
 
-footer form {
+.searchContainer form {
     display: block;
     border-radius: 7px;
     margin: 0 auto;
     text-align: center;
 }
 
-footer form input {
+.searchContainer form input {
     color: #eee;
     font-size: 0.75em;
     font-weight: bolder;
 }
 
-footer form input[type="search"] {
+.searchContainer form input[type="search"] {
     padding: 1em;
     border: none;
     background-color: transparent;
@@ -54,7 +53,7 @@ footer form input[type="search"] {
     border-radius: 7px;
 }
 
-footer form input[type="submit"] {
+.searchContainer form input[type="submit"] {
     margin-top: 1em;
     margin-left: 0;
     padding: 1em;
@@ -63,14 +62,21 @@ footer form input[type="submit"] {
     border-radius: 7px;
 }
 
-footer form input[type="submit"]:hover {
+.searchContainer form input[type="submit"]:hover {
     cursor: pointer;
     opacity: 0.5;
     transition-duration: 0.3s;
 }
 
-footer form label {
+.searchContainer form label {
     display: none;
+}
+
+.searchClose, .searchOpen {
+    padding: 1em 0;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
 }
 
 
