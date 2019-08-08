@@ -211,8 +211,8 @@ function buildListOfPages(pages) {
 function buildFooter() {
     $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`);
     $('#searchButton').click((event) => {
-        // const currentPage = window.location.hash.replace('#','');
-        const currentPage = window.location.hash;
+        // FIXME: The close button works locally, but not when deployed to the server
+        const currentPage = window.location.hash.replace('#','');
         $('#wiki').empty().html(`
         <div class="searchContainer">
             <form id="searchForm">
@@ -220,7 +220,7 @@ function buildFooter() {
                 <input id="searchTerm" name="search" type="search" aria-placeholder="Search">
                 <input type="submit" value="Search">
             </form>
-            <a href="/${currentPage}" class="searchClose">Close</a>
+            <a href="${currentPage}" class="searchClose" data-navigo>Close</a>
         </div>
         `);
         $("#searchForm").on("submit", (event) => {
