@@ -215,8 +215,7 @@ function buildFooter() {
     $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`);
     $('#searchButton').click((event) => {
         // FIXME: The close button works locally, but not when deployed to the server
-        // const currentPage = window.location.hash.replace('#','');
-        const currentPage = window.location.hash;
+        const currentPage = window.location.hash.replace('#','');
         $('#wiki').empty().html(`
         <div class="searchContainer">
             <form id="searchForm">
