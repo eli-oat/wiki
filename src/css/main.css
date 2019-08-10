@@ -29,8 +29,9 @@ hr {
 }
 
 a, a:visited {
-    color: #a008d3;
-    text-decoration: none;
+    color: inherit;
+    text-decoration: underline;
+    font-weight: bold;
 }
 
 a:hover {
