@@ -1,3 +1,0 @@
-[build]
-  publish = "./dist"
-  command = "export NODE_ENV=prod && npx parcel build index.html -d ./dist"
