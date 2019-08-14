@@ -145,8 +145,8 @@ function doSearch(pageData, params) {
         this.ref('slug');
         this.field('body');
         pageData.forEach(function (doc) {
-            this.add(doc)
-        }, this)
+            this.add(doc);
+        }, this);
     });
     let searchResults = idx.search(params.query);
     const afterNav = `<h1>Search: ${params.query}</h1><ul id="searchResults"></ul>`;
