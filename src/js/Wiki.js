@@ -97,6 +97,7 @@ function findIndexPages(pageData) {
     return parentPages;
 }
 
+// TODO: Consider using .filter or .map instead of .forEach for some of these functions that search for equality
 function findSinglePage(pageData, pageSlug) {
     let singlePage = null;
     pageData.forEach((page) => {
