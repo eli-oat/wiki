@@ -1,5 +1,3 @@
-;; FIXME: will need a way to handle .env stuff so that navigo works
-
 (def *database-url* "https://luxurious-binder.glitch.me/wiki.json")
 
 ($.ajax {
@@ -19,6 +17,10 @@
   "Just like console.log...because it *is* console.log"
   [data-to-log] (.log console data-to-log))
 
+(defn  annoy-the-human
+  "Wrapper around alert()"
+  [annoying-data] (alert annoying-data))
+
 (defn judeged-by-its-cover
   "Get the wiki's title"
   [data] (get data :title))
@@ -33,12 +35,10 @@
 
 (defn handle-response-error
   "Display error message if the ajax request fails"
-  [data] (.log console (get [data] "error")))
+  [data] (log-to-console (get [data] "error")))
 
 
 (defn silly-test
   "testing forEach loops THIS WORKS!"
-  [page-data] (page-data.forEach
+  [page-data] (.forEach page-data
                (fn [one-page] (log-to-console (get one-page :title)))))
-
-
