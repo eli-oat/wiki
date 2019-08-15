@@ -13,7 +13,7 @@
 
 (defn handle-response-success
   "Do this if the ajax request looks good"
-  [data] (.log console data))
+  [data] (loop [x]))
 
 (defn handle-response-error
   "Display error message if the ajax request fails"
