@@ -213,22 +213,27 @@ function buildHeader(afterNav) {
 }
 
 function buildFooter() {
-    $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`);
+    $('#wiki').append(`<a href="javascript:void(0);" id="searchButton" class="searchOpen">Search</a>`).after(`<div id="searchContainer" class="searchContainer"></div>`);
     $('#searchButton').click((event) => {
-        // FIXME: The close button works locally, but not when deployed to the server
-        const currentPage = window.location.hash.replace('#','');
-        $('#wiki').empty().html(`
-        <div class="searchContainer">
+        $('#wiki').hide();
+        $('#searchContainer').html(`
             <form id="searchForm">
                 <label for="searchTerm">Search</label>
                 <input id="searchTerm" name="search" type="search" aria-placeholder="Search">
                 <input type="submit" value="Search">
             </form>
-            <a href="${currentPage}" class="searchClose" data-navigo>Close</a>
-        </div>
+            <a href="javascript:void(0);" id="searchClose" class="searchClose">Close</a>
         `);
+        let showAndEmpty = () => {
+            $('#wiki').show();
+            $('#searchContainer').empty();
+        };
+        $('#searchClose').click((event) => {
+            showAndEmpty();
+        });
         $("#searchForm").on("submit", (event) => {
             const searchTerm = $('#searchTerm').val();
+            showAndEmpty();
             router.navigate('buscar/' + searchTerm);
             event.preventDefault();
         });
