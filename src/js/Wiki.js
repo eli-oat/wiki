@@ -3,6 +3,7 @@ import $ from 'jquery';
 import Marked from 'marked';
 import Lunr from 'lunr';
 
+// What is writing code if not obsessing over organization -- consider combining similarly named functions into classes
 
 // Configure markdown parser
 Marked.setOptions({
