@@ -69,4 +69,4 @@ There are a number of items that I would like to clean up here, namely:
 
 I also hope to port the static wiki engine to a number of languages in the future.
 
-The major missing piece right now is also the ability to add/edit content on the fly, without manually editing a `json` file.
+The major missing piece right now is the ability to add/edit content on the fly, without manually editing a `json` file.
