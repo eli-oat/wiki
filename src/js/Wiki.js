@@ -194,7 +194,7 @@ function buildBreadCrumbs(familyTree) {
 function buildListOfPages(pages) {
     if (pages.length > 0) {
         $('#wiki').append(`<br><hr><ul id="pageList"></ul>`);
-        pages.forEach((page) => {
+        pages.sort().forEach((page) => {
             $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
         });
     }
