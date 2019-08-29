@@ -1,6 +1,10 @@
+//@ts-ignore
 import Navigo from 'navigo';
+//@ts-ignore
 import $ from 'jquery';
+//@ts-ignore
 import Marked from 'marked';
+//@ts-ignore
 import Lunr from 'lunr';
 
 // What is writing code if not obsessing over organization -- consider combining similarly named functions into classes
@@ -18,6 +22,7 @@ Marked.setOptions({
 
 
 // Configure and initialize router
+//@ts-ignore
 const root = process.env.ROOT_URL; // root URL is defined with an env variable
 const useHash = true;
 const hash = '#';
@@ -26,12 +31,13 @@ const router = new Navigo(root, useHash, hash);
 
 // Get the data
 $.ajax({
+    //@ts-ignore
     url: process.env.DATABASE_URL,
     async: true,
     contentType: 'application/json',
     dataType: 'json',
     type: 'GET',
-    success: (data) => {
+    success: (data: object) => {
 
         if (localStorage.getItem('wikiData')) {
             localStorage.removeItem('wikiData');
@@ -49,7 +55,7 @@ $.ajax({
                 // return all index pages
                 buildIndex(wikiTitle, indexPages);
             })
-            .on('buscar/:query', (params) => {
+            .on('buscar/:query', (params: string) => {
                 // search results
                 doSearch(pageData, params);
             })
@@ -57,13 +63,13 @@ $.ajax({
                 // hierarchical display of all pages as a tree/list
                 console.log('WIP, lista');
             })
-            .on(':slug', (params) => {
+            .on(':slug', (params: string) => {
                 // return a specific page by that page's slug
                 let targetPage = findSinglePage(pageData, params.slug);
                 let childPages = findChildPages(pageData, params.slug);
                 buildDetail(targetPage, childPages, pageData);
             })
-            .notFound((query) => {
+            .notFound((query: string) => {
                 console.log('Not found. ' + query);
             })
             .resolve();
@@ -78,8 +84,8 @@ $.ajax({
 
 
 // Utilities for retrieving the data
-function allWikiPages(data) {
-    let pageData;
+function allWikiPages(data: object): object {
+    let pageData: object;
     if (data.pages) {
         pageData = data.pages;
     } else {
@@ -88,7 +94,7 @@ function allWikiPages(data) {
     return pageData;
 }
 
-function findIndexPages(pageData) {
+function findIndexPages(pageData: object): object {
     let parentPages = [];
     pageData.forEach((page) => {
         if (!page.parentPage) {
@@ -99,9 +105,9 @@ function findIndexPages(pageData) {
 }
 
 // TODO: Consider using .filter or .map instead of .forEach for some of these functions that search for equality
-function findSinglePage(pageData, pageSlug) {
+function findSinglePage(pageData: object, pageSlug: string) {
     let singlePage = null;
-    pageData.forEach((page) => {
+    pageData.forEach((page: string[]) => {
         if (page.slug === pageSlug) {
             singlePage = page;
         }
@@ -109,9 +115,9 @@ function findSinglePage(pageData, pageSlug) {
     return singlePage;
 }
 
-function findChildPages(pageData, parentPage) {
+function findChildPages(pageData: object, parentPage: string) {
     let childPages = [];
-    pageData.forEach((page) => {
+    pageData.forEach((page: string[]) => {
         if (page.parentPage === parentPage) {
             childPages.push(page);
         }
@@ -142,11 +148,11 @@ function findAllAncestors(pageData, currentParent, familyTree = []) {
     return familyTree;
 }
 
-function doSearch(pageData, params) {
-    let idx = Lunr(function () {
+function doSearch(pageData: string[], params: string[]) {
+    let idx = Lunr(function() {
         this.ref('slug');
         this.field('body');
-        pageData.forEach(function (doc) {
+        pageData.forEach(function(doc) {
             this.add(doc);
         }, this);
     });
@@ -160,7 +166,7 @@ function doSearch(pageData, params) {
 
 // Build UI with the data
 function buildIndex(wikiTitle, wikiIndex) {
-    const afterNav =`<h1>${wikiTitle}</h1><main id="indexList"></main>`;
+    const afterNav = `<h1>${wikiTitle}</h1><main id="indexList"></main>`;
     buildHeader(afterNav);
     wikiIndex.forEach((page) => {
         $('#indexList').append(

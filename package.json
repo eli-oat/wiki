@@ -8,6 +8,7 @@
   "scripts": {
     "clean": "rm -rf ./dist && rm -rf ./.cache",
     "dev": "export NODE_ENV=dev && npx parcel index.html",
+    "type-check": "tsc --noEmit src/ts/Wiki.ts",
     "build": "yarn run clean && export NODE_ENV=prod && npx parcel build index.html -d ./dist"
   },
   "dependencies": {
