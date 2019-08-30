@@ -38,6 +38,14 @@
   [data] (log-to-console (get [data] "error")))
 
 
+;; NAIVE implementation -- needs to be tested, and probs destoryed
+(defn js-for-each
+  "Wrapper around JavaScript's .forEach method"
+  [array-to-loop function-to-perform] (.forEach array-to-loop
+                                                (do
+                                                  (function-to-perform item-of-array))))
+
+
 (defn silly-test
   "testing forEach loops THIS WORKS!"
   [page-data] (.forEach page-data
