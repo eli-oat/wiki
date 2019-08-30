@@ -77,7 +77,7 @@ $.ajax({
 });
 
 
-// Utilities for retrieving the data
+// Utilities for retrieving and managing the data
 function allWikiPages(data) {
     let pageData;
     if (data.pages) {
@@ -158,6 +158,21 @@ function doSearch(pageData, params) {
     });
 }
 
+function sortByProperty(property) {
+    let sortOrder = 1;
+    if (property[0] === "-") {
+        sortOrder = -1;
+        property = property.substr(1);
+    }
+    return (a,b) => {
+        if (sortOrder === -1){
+            return b[property].localeCompare(a[property]);
+        } else {
+            return a[property].localeCompare(b[property]);
+        }        
+    };
+}
+
 // Build UI with the data
 function buildIndex(wikiTitle, wikiIndex) {
     const afterNav =`<h1>${wikiTitle}</h1><main id="indexList"></main>`;
@@ -194,7 +209,7 @@ function buildBreadCrumbs(familyTree) {
 function buildListOfPages(pages) {
     if (pages.length > 0) {
         $('#wiki').append(`<br><hr><ul id="pageList"></ul>`);
-        pages.forEach((page) => {
+        pages.sort(sortByProperty('title')).forEach((page) => {
             $('#pageList').append(`<li><a href="/#${page.slug}">${page.title}</a></li>`);
         });
     }
