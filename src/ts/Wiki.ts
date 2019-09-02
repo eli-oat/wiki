@@ -21,6 +21,20 @@ Marked.setOptions({
 });
 
 
+// Define some interfaces
+interface pageData {
+    body: string,
+    parentPage: string,
+    slug: string,
+    title: string
+};
+
+interface wikiData {
+    title: string,
+    pages: pageData[]
+};
+
+
 // Configure and initialize router
 //@ts-ignore
 const root = process.env.ROOT_URL; // root URL is defined with an env variable
@@ -84,8 +98,8 @@ $.ajax({
 
 
 // Utilities for retrieving the data
-function allWikiPages(data: object): object {
-    let pageData: object;
+function allWikiPages(data: wikiData): object {
+    let pageData: pageData;
     if (data.pages) {
         pageData = data.pages;
     } else {
@@ -94,7 +108,7 @@ function allWikiPages(data: object): object {
     return pageData;
 }
 
-function findIndexPages(pageData: object): object {
+function findIndexPages(pageData: pageData): object {
     let parentPages = [];
     pageData.forEach((page) => {
         if (!page.parentPage) {
