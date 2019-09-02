@@ -17,7 +17,7 @@
   "Just like console.log...because it *is* console.log"
   [data-to-log] (.log console data-to-log))
 
-(defn  annoy-the-human
+(defn annoy-the-human
   "Wrapper around alert()"
   [annoying-data] (alert annoying-data))
 
