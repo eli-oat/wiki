@@ -1,4 +1,10 @@
-(def *database-url* "https://luxurious-binder.glitch.me/wiki.json")
+;;; Wiki.wisp --- Static wiki engine
+;; Author: eli_oat
+;;; Commentary:
+;;; A relatively straight-forward (re)implementation of a static wiki engine
+;;; Code:
+
+(def *database-url* "https://couch.eli.li/wiki/f2b82f8993291328f9de654842002bd6")
 
 ($.ajax {
          :url *database-url*
@@ -6,8 +12,10 @@
          :contentType "application/json"
          :dataType "json"
          :type "GET"
-         :success (fn [data] (handle-response-success data))
-         :error (fn [response] (handle-response-error response))})
+         :success (fn
+                    [data] (handle-response-success data))
+         :error (fn
+                  [response] (handle-response-error response))})
 
 (defn handle-response-success
   "Do this if the ajax request looks good"
@@ -37,16 +45,9 @@
   "Display error message if the ajax request fails"
   [data] (log-to-console (get [data] "error")))
 
-
-;; NAIVE implementation -- needs to be tested, and probs destoryed
-(defn js-for-each
-  "Wrapper around JavaScript's .forEach method"
-  [array-to-loop function-to-perform] (.forEach array-to-loop
-                                                (do
-                                                  (function-to-perform item-of-array))))
-
-
 (defn silly-test
-  "testing forEach loops THIS WORKS!"
+  "testing forEach loops THIS WORKS! but is very un-lisp-like"
   [page-data] (.forEach page-data
                (fn [one-page] (log-to-console (get one-page :title)))))
+
+;;; Wiki.wisp ends here
