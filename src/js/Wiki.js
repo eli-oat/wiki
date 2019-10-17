@@ -53,9 +53,13 @@ $.ajax({
                 // search results
                 doSearch(pageData, params);
             })
+            .on('editar/:slug', (params) => {
+                // edit a page's contents
+                console.info('editar ' + params.slug);
+            })
             .on('lista', () => {
                 // hierarchical display of all pages as a tree/list
-                console.log('WIP, lista');
+                console.info('WIP, lista');
             })
             .on(':slug', (params) => {
                 // return a specific page by that page's slug
