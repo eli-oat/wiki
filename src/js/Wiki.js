@@ -176,9 +176,11 @@ function doEdit(pageData, params) {
         };
         $.ajax({
             type: "POST",
-            xhrFields: {
-                withCredentials: true
-            },
+            /*
+              xhrFields: {
+              withCredentials: true
+              },
+            */
             url: process.env.API_URL + '/_session',
             data: formData,
             success: (result) => {
