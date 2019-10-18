@@ -176,7 +176,7 @@ function doEdit(pageData, params) {
         };
         $.ajax({
             type: "POST",
-            url: process.env.API_URL,
+            url: process.env.API_URL + '/_session',
             data: formData,
             success: (result) => {
                 console.info(result);
