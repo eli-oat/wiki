@@ -79,8 +79,8 @@ $.ajax({
     },
     error: (xhr, status, error) => {
         console.log('🚨 There was an error retrieving the data!');
-        console.log(status);
-        console.log(error);
+        console.info(status);
+        console.error(error);
     }
 });
 
@@ -167,9 +167,27 @@ function doSearch(pageData, params) {
 }
 
 function doEdit(pageData, params) {
-    console.info(document.cookie);
-    const buildForm = `<h1>Login:</h1><form><label>Username</label><br><input type="text"><br><label>Password</label><br><input type="password"><br><input type="submit" value="Submit"></form>`;
+    const buildForm = `<h1>Login:</h1><form id="authForm"><label>Username</label><br><input type="text" name="name" id="name"><br><label>Password</label><br><input type="password" name="password" id="password"><br><input type="submit" value="Submit"></form>`;
     buildHeader(buildForm);
+    $( "#authForm" ).submit(function(event) {
+        const formData = {
+            "name": $('#name').val(),
+            "password": $('#password').val()
+        };
+        $.ajax({
+            type: "POST",
+            url: process.env.API_URL,
+            data: formData,
+            success: (result) => {
+                console.info(result);
+                console.info(document.cookie);
+            },
+            error: (xhr, status, error) => {
+                console.warn(error);
+            }
+        });
+        event.preventDefault();
+    });
 }
 
 function sortByProperty(property) {
