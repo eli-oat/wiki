@@ -180,6 +180,7 @@ function doEdit(pageData, params) {
             data: formData,
             success: (result) => {
                 console.info(result);
+                console.info(result.headers);
                 console.info(document.cookie);
             },
             error: (xhr, status, error) => {
