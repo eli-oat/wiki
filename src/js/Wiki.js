@@ -48,14 +48,18 @@ $.ajax({
             .on('/', () => {
                 // return all index pages
                 buildIndex(wikiTitle, indexPages);
+                $(document).prop('title', wikiTitle);
             })
             .on('buscar/:query', (params) => {
                 // search results
                 doSearch(pageData, params);
+                $(document).prop('title', wikiTitle + ' | Search');
             })
             .on('editar/:slug', (params) => {
                 // edit a page's contents
                 console.info('editar ' + params.slug);
+                doEdit(pageData, params);
+                $(document).prop('title', wikiTitle + ' | Edit');
             })
             .on('lista', () => {
                 // hierarchical display of all pages as a tree/list
@@ -162,6 +166,12 @@ function doSearch(pageData, params) {
     });
 }
 
+function doEdit(pageData, params) {
+    console.info(document.cookie);
+    const buildForm = `<h1>Login:</h1><form><label>Username</label><br><input type="text"><br><label>Password</label><br><input type="password"><br><input type="submit" value="Submit"></form>`;
+    buildForm();
+}
+
 function sortByProperty(property) {
     let sortOrder = 1;
     if (property[0] === "-") {
@@ -202,6 +212,7 @@ function buildDetail(page, childPages, pageData) {
     );
     buildListOfPages(childPages);
     buildFooter();
+    $(document).prop('title', page.title);
 }
 
 function buildBreadCrumbs(familyTree) {
