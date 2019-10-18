@@ -176,12 +176,15 @@ function doEdit(pageData, params) {
         };
         $.ajax({
             type: "POST",
+            contentType: "application/json",
+            xhrFields: {
+                withCredentials: true
+            },
             url: process.env.API_URL + '/_session',
             data: formData,
-            success: (xhr, status, result) => {
-                console.info(result);
+            success: (result) => {
                 console.log(result.getAllResponseHeaders());
-                console.info(document.cookie);
+                // console.info(document.cookie);
             },
             error: (xhr, status, error) => {
                 console.warn(error);
