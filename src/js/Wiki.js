@@ -184,13 +184,13 @@ function doEdit(pageData, params) {
             data: formData,
             success: (result) => {
                 // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token. This may be a way forward, <https://docs.couchdb.org/en/stable/api/server/authn.html#proxy-authentication>
-                console.log(result.getAllResponseHeaders());
-            },
-            error: (xhr, status, error) => {
-                console.info(xhr);
-                console.warn(status);
-                console.error(error);
-            }
+                console.log(result;
+                           },
+                error: (xhr, status, error) => {
+                    console.info(xhr);
+                    console.warn(status);
+                    console.error(error);
+                }
         });
         event.preventDefault();
     });
