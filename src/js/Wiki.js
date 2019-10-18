@@ -78,12 +78,11 @@ $.ajax({
 
     },
     error: (xhr, status, error) => {
-        console.log('🚨 There was an error retrieving the data!');
+        console.warn('🚨 There was an error retrieving the data!');
         console.info(status);
         console.error(error);
     }
 });
-
 
 // Utilities for retrieving and managing the data
 function allWikiPages(data) {
@@ -167,10 +166,38 @@ function doSearch(pageData, params) {
 }
 
 function doEdit(pageData, params) {
-    const buildForm = `<h1>Login</h1><form id="authForm"><label>Username</label><br><input type="text" name="name" id="name"><br><label>Password</label><br><input type="password" name="password" id="password"><br><input type="submit" value="Submit"></form>`;
+    const editPage = findSinglePage(pageData, params.slug);
+    console.log(editPage);
+    const buildForm =
+        `<h1>Edit</h1>
+            <form id="editForm" method="POST">
+                <label for="title">Title</label><br>
+                <input type="text" name="title" id="title" value="${editPage.title}"><br>
+                <label for="slug">URL</label><br>
+                <input type="text" name="slug" id="slug" value="${editPage.slug}"><br>
+                <label for="parentPage">Parent Page</label><br>
+                <input type="text" name="parentPage" id="parentPage" value="${editPage.parentPage}"><br>
+                <label for="body">Body</label><br>
+                <textarea name="body" id="body" cols="30" rows="10">${editPage.body}</textarea>
+                <br>
+                <br>
+                <hr>
+                <br>
+                <label for="name">Username</label><br>
+                <input type="text" name="name" id="name"><br>
+                <label for="password">Password</label><br>
+                <input type="password" name="password" id="password"><br>
+                <input type="submit" value="Submit and Save">
+            </form>`;
     buildHeader(buildForm);
-    $( "#authForm" ).submit(function(event) {
+    $( "#editForm" ).submit(function(event) {
         const formInputData = {
+            "parentPage": $('#parentPage').val(),
+            "slug": $('#slug').val(),
+            "title": $('#title').val(),
+            "body": $('#body').val()
+        };
+        const userAuthData = {
             "name": $('#name').val(),
             "password": $('#password').val()
         };
@@ -182,17 +209,16 @@ function doEdit(pageData, params) {
             crossDomain: true,
             url: process.env.API_URL + '/_session',
             dataType: "json",
-            data: formInputData,
+            data: userAuthData,
             beforeSend: (xhr) => {
                 xhr.setRequestHeader('Accept', 'application/json');
             },
             success: (result) => {
-                // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token. This may be a way forward, <https://docs.couchdb.org/en/stable/api/server/authn.html#proxy-authentication>. After having done more research I'm realizing that this is probs not the best approach for handling user auth -- not gonna work. New direction is needed.
                 console.log(result);
             },
             error: (xhr, status, error) => {
-                console.info(xhr);
-                console.warn(status);
+                console.warn('🚨 There was an error retrieving the data!');
+                console.info(status);
                 console.error(error);
             }
         });
