@@ -72,7 +72,7 @@ $.ajax({
                 buildDetail(targetPage, childPages, pageData);
             })
             .notFound((query) => {
-                console.log('Not found. ' + query);
+                console.info('Not found. ' + query);
             })
             .resolve();
 
