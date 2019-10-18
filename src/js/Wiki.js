@@ -183,22 +183,13 @@ function doEdit(pageData, params) {
             url: process.env.API_URL + '/_session',
             data: formData,
             success: (result) => {
-                $.ajax({
-                    type: "GET",
-                    xhrFields: {
-                        withCredentials: true
-                    },
-                    crossDomain: true,
-                    url: process.env.API_URL + '/_session',
-                    success: (resp) => {
-                        console.info('SUCCESS!');
-                    }
-                });
-                //  console.log(result.getAllResponseHeaders());
-                // console.info(document.cookie);
+                // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token.
+                console.log(result.getAllResponseHeaders());
             },
             error: (xhr, status, error) => {
-                console.warn(error);
+                console.info(xhr);
+                console.warn(status);
+                console.error(error);
             }
         });
         event.preventDefault();
