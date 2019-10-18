@@ -170,19 +170,22 @@ function doEdit(pageData, params) {
     const buildForm = `<h1>Login</h1><form id="authForm"><label>Username</label><br><input type="text" name="name" id="name"><br><label>Password</label><br><input type="password" name="password" id="password"><br><input type="submit" value="Submit"></form>`;
     buildHeader(buildForm);
     $( "#authForm" ).submit(function(event) {
-        const formData = {
+        const formInputData = {
             "name": $('#name').val(),
             "password": $('#password').val()
         };
         $.ajax({
             type: "POST",
-            contentType: "application/json",
             xhrFields: {
                 withCredentials: true
             },
             crossDomain: true,
             url: process.env.API_URL + '/_session',
-            data: formData,
+            dataType: "json",
+            data: formInputData,
+            beforeSend: (xhr) => {
+                xhr.setRequestHeader('Accept', 'application/json');
+            },
             success: (result) => {
                 // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token. This may be a way forward, <https://docs.couchdb.org/en/stable/api/server/authn.html#proxy-authentication>
                 console.log(result);
