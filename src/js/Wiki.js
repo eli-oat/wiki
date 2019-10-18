@@ -176,7 +176,6 @@ function doEdit(pageData, params) {
         };
         $.ajax({
             type: "POST",
-            contentType: "application/json",
             xhrFields: {
                 withCredentials: true
             },
