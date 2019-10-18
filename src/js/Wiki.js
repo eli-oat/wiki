@@ -167,7 +167,7 @@ function doSearch(pageData, params) {
 }
 
 function doEdit(pageData, params) {
-    const buildForm = `<h1>Login:</h1><form id="authForm"><label>Username</label><br><input type="text" name="name" id="name"><br><label>Password</label><br><input type="password" name="password" id="password"><br><input type="submit" value="Submit"></form>`;
+    const buildForm = `<h1>Login</h1><form id="authForm"><label>Username</label><br><input type="text" name="name" id="name"><br><label>Password</label><br><input type="password" name="password" id="password"><br><input type="submit" value="Submit"></form>`;
     buildHeader(buildForm);
     $( "#authForm" ).submit(function(event) {
         const formData = {
@@ -178,9 +178,10 @@ function doEdit(pageData, params) {
             type: "POST",
             url: process.env.API_URL + '/_session',
             data: formData,
-            success: (result) => {
+            success: (xhr, status, result) => {
+                console.info(status);
                 console.info(result);
-                console.info(jqXHR.getResponseHeaders());
+                console.info(xhr.getResponseHeaders());
                 console.info(document.cookie);
             },
             error: (xhr, status, error) => {
