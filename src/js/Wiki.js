@@ -187,7 +187,7 @@ function doEdit(pageData, params) {
                 xhr.setRequestHeader('Accept', 'application/json');
             },
             success: (result) => {
-                // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token. This may be a way forward, <https://docs.couchdb.org/en/stable/api/server/authn.html#proxy-authentication>
+                // FIXME: While CouchDB returns a 'Set-Cookie' header, those seem to be unreachable from the browser. Need to find another way of getting and saving an auth token. This may be a way forward, <https://docs.couchdb.org/en/stable/api/server/authn.html#proxy-authentication>. After having done more research I'm realizing that this is probs not the best approach for handling user auth -- not gonna work. New direction is needed.
                 console.log(result);
             },
             error: (xhr, status, error) => {
