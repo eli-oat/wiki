@@ -179,10 +179,8 @@ function doEdit(pageData, params) {
             url: process.env.API_URL + '/_session',
             data: formData,
             success: (xhr, status, result) => {
-                console.warn(status);
                 console.info(result);
-                console.error(xhr);
-                console.log(xhr.getAllResponseHeaders());
+                console.log(result.getAllResponseHeaders());
                 console.info(document.cookie);
             },
             error: (xhr, status, error) => {
