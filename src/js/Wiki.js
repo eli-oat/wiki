@@ -176,15 +176,23 @@ function doEdit(pageData, params) {
         };
         $.ajax({
             type: "POST",
-            /*
-              xhrFields: {
-              withCredentials: true
-              },
-            */
+            xhrFields: {
+                withCredentials: true
+            },
             url: process.env.API_URL + '/_session',
             data: formData,
             success: (result) => {
-                console.log(result.getAllResponseHeaders());
+                $.ajax({
+                    type: "GET",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                    url: process.env.API_URL + '/_session',
+                    success: (resp) => {
+                        console.log(resp.getAllResponseHeaders);
+                    }
+                });
+                //  console.log(result.getAllResponseHeaders());
                 // console.info(document.cookie);
             },
             error: (xhr, status, error) => {
