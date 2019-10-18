@@ -169,7 +169,7 @@ function doSearch(pageData, params) {
 function doEdit(pageData, params) {
     console.info(document.cookie);
     const buildForm = `<h1>Login:</h1><form><label>Username</label><br><input type="text"><br><label>Password</label><br><input type="password"><br><input type="submit" value="Submit"></form>`;
-    buildForm();
+    buildHeader(buildForm);
 }
 
 function sortByProperty(property) {
