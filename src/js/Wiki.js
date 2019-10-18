@@ -179,6 +179,7 @@ function doEdit(pageData, params) {
             xhrFields: {
                 withCredentials: true
             },
+            crossDomain: true,
             url: process.env.API_URL + '/_session',
             data: formData,
             success: (result) => {
@@ -187,9 +188,10 @@ function doEdit(pageData, params) {
                     xhrFields: {
                         withCredentials: true
                     },
+                    crossDomain: true,
                     url: process.env.API_URL + '/_session',
                     success: (resp) => {
-                        console.log(resp.getAllResponseHeaders);
+                        console.info('SUCCESS!');
                     }
                 });
                 //  console.log(result.getAllResponseHeaders());
