@@ -55,12 +55,14 @@ $.ajax({
                 doSearch(pageData, params);
                 $(document).prop('title', wikiTitle + ' | Search');
             })
+            /*
             .on('editar/:slug', (params) => {
                 // edit a page's contents
                 console.info('editar ' + params.slug);
                 doEdit(pageData, params);
                 $(document).prop('title', wikiTitle + ' | Edit');
             })
+            */
             .on('lista', () => {
                 // hierarchical display of all pages as a tree/list
                 console.info('WIP, lista');
@@ -164,7 +166,7 @@ function doSearch(pageData, params) {
         $('#searchResults').append(`<li><a href="#${result.ref}">#${result.ref}</a></li>`);
     });
 }
-
+/*
 function doEdit(pageData, params) {
     const editPage = findSinglePage(pageData, params.slug);
     console.log(editPage);
@@ -202,12 +204,12 @@ function doEdit(pageData, params) {
             "password": $('#password').val()
         };
 
-        const outWithTheOld = pageData.filter(function(e) { return e.slug !== params.slug; });
+        const outWithTheOld = pageData.filter(function(e) { return e.slug !== params.slug; }); // remove data from array
 
         console.info(pageData.length());
         console.warn(outWithTheOld.length());
     
-        /*
+        
         $.ajax({
             type: "POST",
             xhrFields: {
@@ -229,10 +231,11 @@ function doEdit(pageData, params) {
                 console.error(error);
             }
         });
-        */
+        
         event.preventDefault();
     });
 }
+*/
 
 function sortByProperty(property) {
     let sortOrder = 1;
