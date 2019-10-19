@@ -170,7 +170,7 @@ function doEdit(pageData, params) {
     console.log(editPage);
     const buildForm =
         `<h1>Edit</h1>
-            <form id="editForm" method="POST">
+            <form id="editForm" class="editForm" method="POST">
                 <label for="title">Title</label><br>
                 <input type="text" name="title" id="title" value="${editPage.title}"><br>
                 <label for="slug">URL</label><br>
@@ -186,7 +186,7 @@ function doEdit(pageData, params) {
                 <label for="name">Username</label><br>
                 <input type="text" name="name" id="name"><br>
                 <label for="password">Password</label><br>
-                <input type="password" name="password" id="password"><br>
+                <input type="password" name="password" id="password"><br><br>
                 <input type="submit" value="Submit and Save">
             </form>`;
     buildHeader(buildForm);
@@ -201,6 +201,13 @@ function doEdit(pageData, params) {
             "name": $('#name').val(),
             "password": $('#password').val()
         };
+
+        const outWithTheOld = pageData.filter(function(e) { return e.slug !== params.slug; });
+
+        console.info(pageData.length());
+        console.warn(outWithTheOld.length());
+    
+        /*
         $.ajax({
             type: "POST",
             xhrFields: {
@@ -222,6 +229,7 @@ function doEdit(pageData, params) {
                 console.error(error);
             }
         });
+        */
         event.preventDefault();
     });
 }

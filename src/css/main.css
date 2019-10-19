@@ -103,6 +103,17 @@ a[href^="http"]:after {
     text-align: center;
 }
 
+.editForm input[type="text"], .editForm input[type="password"], .editForm textarea {
+    font-family: monospace;
+    size: 1em;
+    line-height: 1.5em;
+    width: 100%;
+}
+
+.editForm label {
+    opacity: 0.8;
+}
+
 
 @media (prefers-color-scheme: light) {
     body {
